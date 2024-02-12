@@ -1,13 +1,12 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { getUserByEmailIdAndPassword, getUserById} from "../../controllers/userController";
+import { getUserByEmailIdAndPassword, getUserById } from "../../controllers/userController";
 import { PassportStrategy } from '../../interfaces/index';
-
 
 declare global {
   namespace Express {
     interface User {
-      id:number,
+      id: number,
       name: string,
       email: string,
       password: string
@@ -15,19 +14,20 @@ declare global {
   }
 }
 
-
 const localStrategy = new LocalStrategy(
   {
     usernameField: "email",
     passwordField: "password",
   },
   (email, password, done) => {
-    const user = getUserByEmailIdAndPassword(email, password);
-    return user
-      ? done(null, user)
-      : done(null, false, {
-          message: "Your login details are not valid. Please try again",
-        });
+    try {
+      const user = getUserByEmailIdAndPassword(email, password);
+      done(null, user!);
+    } catch (error: any) {
+      done(null, false, {
+        message: error.message,
+      });
+    }
   }
 );
 

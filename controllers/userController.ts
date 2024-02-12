@@ -5,11 +5,14 @@ const getUserByEmailIdAndPassword = (email: string, password: string) => {
   if (user) {
     if (isUserValid(user, password)) {
       return user;
+    } else {
+      throw new Error(`Password is incorrect`);
     }
   }
   return null;
 };
-const getUserById = (id:any) => {
+
+const getUserById = (id: any) => {
   let user = userModel.findById(id);
   if (user) {
     return user;

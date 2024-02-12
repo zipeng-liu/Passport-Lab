@@ -4,6 +4,11 @@
       <h1 class="mb-3">
         <img src="/secure-icon.png" alt="icon" width="20%" />
       </h1>
+
+      <div class="error-message">
+        <p><%= messages %></p>
+      </div>
+      
       <h2>Login</h2>
       <form action="/auth/login" method="POST">
         <div class="form-group">
