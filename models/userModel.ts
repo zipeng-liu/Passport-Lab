@@ -4,18 +4,21 @@ const database = [
     name: "Jimmy Smith",
     email: "jimmy123@gmail.com",
     password: "jimmy123!",
+    role: "admin"
   },
   {
     id: 2,
     name: "Johnny Doe",
     email: "johnny123@gmail.com",
     password: "johnny123!",
+    role: "user"
   },
   {
     id: 3,
     name: "Jonathan Chen",
     email: "jonathan123@gmail.com",
     password: "jonathan123!",
+    role: "user"
   },
 ];
 
@@ -37,6 +40,27 @@ const userModel = {
     }
     throw new Error(`Couldn't find user with id: ${id}`);
   },
+  findOrCreate: (id: number, name: string, email: string, username: string): Promise<any> => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const user = database.find((user) => user.id === id);
+        if (!user) {
+          const newUser = {
+            id: database.length + 1,
+            name: name,
+            email: email || `${username}@github.com`,
+            password: "",
+            role: "user"
+          };
+          database.push(newUser);
+          resolve(newUser);
+        } else {
+          resolve(user);
+        }
+      }, 0); 
+    });
+  }
+  
 };
 
 export { database, userModel };

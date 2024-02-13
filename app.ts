@@ -4,6 +4,9 @@ import session from "express-session";
 import path from "path";
 import passportMiddleware from './middleware/passportMiddleware';
 
+import dotenv from 'dotenv'; 
+dotenv.config();
+
 const port = process.env.port || 8000;
 
 const app = express();
