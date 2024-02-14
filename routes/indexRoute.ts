@@ -41,11 +41,18 @@ router.get("/admin", ensureAuthenticated, (req, res) => {
 );
 
 router.post("/revoke-session", (req, res) => {
-  const sessionID = req.body.sessionID; 
+  const sessionID = req.body.sessionID;
   if (sessionID) {
-    req.session.destroy(err => {
-      console.log("Error destroying session");
+    req.sessionStore.destroy(sessionID, (err) => {
+      if (err) {
+        console.error("Error destroying session:", err);
+        res.status(500).send("Error destroying session");
+      } else {
+        res.status(200).send("Session destroyed successfully");
+      }
     });
+  } else {
+    res.status(400).send("Invalid sessionID");
   }
 });
 
